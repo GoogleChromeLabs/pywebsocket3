@@ -606,71 +606,72 @@ def main():
     # We accept --command_line_flag style flags which is the same as Google
     # gflags in addition to common --command-line-flag style flags.
     parser.add_argument('-s',
-                      '--server-host',
-                      '--server_host',
-                      dest='server_host',
-                      type=six.text_type,
-                      default='localhost',
-                      help='server host')
+                        '--server-host',
+                        '--server_host',
+                        dest='server_host',
+                        type=six.text_type,
+                        default='localhost',
+                        help='server host')
     parser.add_argument('-p',
-                      '--server-port',
-                      '--server_port',
-                      dest='server_port',
-                      type=int,
-                      default=_UNDEFINED_PORT,
-                      help='server port')
+                        '--server-port',
+                        '--server_port',
+                        dest='server_port',
+                        type=int,
+                        default=_UNDEFINED_PORT,
+                        help='server port')
     parser.add_argument('-o',
-                      '--origin',
-                      dest='origin',
-                      type=six.text_type,
-                      default=None,
-                      help='origin')
+                        '--origin',
+                        dest='origin',
+                        type=six.text_type,
+                        default=None,
+                        help='origin')
     parser.add_argument('-r',
-                      '--resource',
-                      dest='resource',
-                      type=six.text_type,
-                      default='/echo',
-                      help='resource path')
-    parser.add_argument('-m',
-                      '--message',
-                      dest='message',
-                      type=six.text_type,
-                      default=u'Hello,\u65e5\u672c',
-                      help=('comma-separated messages to send. '
-                            '%s will force close the connection from server.' %
-                            _GOODBYE_MESSAGE))
+                        '--resource',
+                        dest='resource',
+                        type=six.text_type,
+                        default='/echo',
+                        help='resource path')
+    parser.add_argument(
+        '-m',
+        '--message',
+        dest='message',
+        type=six.text_type,
+        default=u'Hello,\u65e5\u672c',
+        help=('comma-separated messages to send. '
+              '%s will force close the connection from server.' %
+              _GOODBYE_MESSAGE))
     parser.add_argument('-q',
-                      '--quiet',
-                      dest='verbose',
-                      action='store_false',
-                      default=True,
-                      help='suppress messages')
+                        '--quiet',
+                        dest='verbose',
+                        action='store_false',
+                        default=True,
+                        help='suppress messages')
     parser.add_argument('-t',
-                      '--tls',
-                      dest='use_tls',
-                      action='store_true',
-                      default=False,
-                      help='use TLS (wss://).')
+                        '--tls',
+                        dest='use_tls',
+                        action='store_true',
+                        default=False,
+                        help='use TLS (wss://).')
     parser.add_argument('-k',
-                      '--socket-timeout',
-                      '--socket_timeout',
-                      dest='socket_timeout',
-                      type=int,
-                      default=_TIMEOUT_SEC,
-                      help='Timeout(sec) for sockets')
+                        '--socket-timeout',
+                        '--socket_timeout',
+                        dest='socket_timeout',
+                        type=int,
+                        default=_TIMEOUT_SEC,
+                        help='Timeout(sec) for sockets')
     parser.add_argument('--use-permessage-deflate',
-                      '--use_permessage_deflate',
-                      dest='use_permessage_deflate',
-                      action='store_true',
-                      default=False,
-                      help='Use the permessage-deflate extension.')
+                        '--use_permessage_deflate',
+                        dest='use_permessage_deflate',
+                        action='store_true',
+                        default=False,
+                        help='Use the permessage-deflate extension.')
     parser.add_argument('--log-level',
-                      '--log_level',
-                      type=six.text_type,
-                      dest='log_level',
-                      default='warn',
-                      choices=['debug', 'info', 'warn', 'error', 'critical'],
-                      help='Log level.')
+                        '--log_level',
+                        type=six.text_type,
+                        dest='log_level',
+                        default='warn',
+                        choices=['debug', 'info', 'warn', 'error', 'critical'],
+                        help='Log level.')
 
     options = parser.parse_args()
 
