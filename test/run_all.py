@@ -46,6 +46,7 @@ import logging
 import argparse
 import os
 import re
+import six
 import sys
 import unittest
 
@@ -72,7 +73,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--log-level',
         '--log_level',
-        type=str,
+        type=six.text_type,
         dest='log_level',
         default='warning',
         choices=['debug', 'info', 'warning', 'warn', 'error', 'critical'])
