@@ -321,7 +321,6 @@ class WebSocketHandshake(object):
                 self._options.basic_auth_credential.encode('UTF-8')).decode()
             fields.append(u'Authorization: %s\r\n' % credential)
 
-
         # Setting up extensions.
         if len(self._options.extensions) > 0:
             fields.append(u'Sec-WebSocket-Extensions: %s\r\n' %

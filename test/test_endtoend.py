@@ -245,8 +245,11 @@ class EndToEndHyBiTest(EndToEndTestBase):
         finally:
             self._close_server(server)
 
-    def _run_close_with_code_and_reason_test(self, test_function, code,
-                                             reason, server_option=[]):
+    def _run_close_with_code_and_reason_test(self,
+                                             test_function,
+                                             code,
+                                             reason,
+                                             server_option=[]):
         server = self._run_server()
         try:
             time.sleep(_SERVER_WARMUP_IN_SEC)
@@ -619,9 +622,10 @@ class EndToEndHyBiTest(EndToEndTestBase):
         # with self.assertRaises(Exception):
 
         with self.assertRaises(client_for_testing.HttpStatusException) as e:
-            self._run_test_with_client_options(_check_handshake_with_basic_auth,
-                                               options,
-                                               server_option=['--basic-auth'])
+            self._run_test_with_client_options(
+                _check_handshake_with_basic_auth,
+                options,
+                server_option=['--basic-auth'])
             self.assertEqual(101, e.exception.status)
 
 
