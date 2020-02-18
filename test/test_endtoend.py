@@ -173,8 +173,7 @@ class EndToEndTestBase(unittest.TestCase):
             args.append('--log-level')
             args.append(logging.getLevelName(log_level).lower())
 
-        for extra_arg in extra_args:
-            args.append(extra_arg)
+        args += extra_args
 
         return self._run_python_command(args, stderr=self.server_stderr)
 
@@ -202,11 +201,11 @@ class EndToEndHyBiTest(EndToEndTestBase):
     def setUp(self):
         EndToEndTestBase.setUp(self)
 
-    def _run_test_with_client_options(self,
-                                      test_function,
-                                      options,
-                                      server_option=[]):
-        server = self._run_server(server_option)
+    def _run_test_with_options(self,
+                               test_function,
+                               options,
+                               server_options=[]):
+        server = self._run_server(server_options)
         try:
             # TODO(tyoshino): add some logic to poll the server until it
             # becomes ready
@@ -221,7 +220,7 @@ class EndToEndHyBiTest(EndToEndTestBase):
             self._close_server(server)
 
     def _run_test(self, test_function):
-        self._run_test_with_client_options(test_function, self._options)
+        self._run_test_with_options(test_function, self._options)
 
     def _run_permessage_deflate_test(self, offer, response_checker,
                                      test_function):
@@ -249,7 +248,7 @@ class EndToEndHyBiTest(EndToEndTestBase):
                                              test_function,
                                              code,
                                              reason,
-                                             server_option=[]):
+                                             server_options=[]):
         server = self._run_server()
         try:
             time.sleep(_SERVER_WARMUP_IN_SEC)
@@ -554,10 +553,10 @@ class EndToEndHyBiTest(EndToEndTestBase):
 
         options = self._options
         options.resource = 'ws://localhost:%d/echo' % options.server_port
-        self._run_test_with_client_options(_echo_check_procedure, options)
+        self._run_test_with_options(_echo_check_procedure, options)
 
     def test_invalid_absolute_uri(self):
-        """tests invalid absolute uri request."""
+        """Tests invalid absolute uri request."""
 
         options = self._options
         options.resource = 'ws://invalidlocalhost:%d/echo' % options.server_port
@@ -576,7 +575,7 @@ class EndToEndHyBiTest(EndToEndTestBase):
         self._run_http_fallback_test(options, 403)
 
     def test_invalid_resource(self):
-        """Tests invalid resource suite."""
+        """Tests invalid resource path."""
 
         options = self._options
         options.resource = '/no_resource'
@@ -584,11 +583,11 @@ class EndToEndHyBiTest(EndToEndTestBase):
         self.server_stderr = subprocess.PIPE
         self._run_http_fallback_test(options, 404)
 
-    def test_framentized_resource(self):
-        """Tests fragmentized resource name"""
+    def test_fragmentized_resource(self):
+        """Tests resource name with fragment"""
 
         options = self._options
-        options.resource = '/echo#framentized'
+        options.resource = '/echo#fragment'
 
         self.server_stderr = subprocess.PIPE
         self._run_http_fallback_test(options, 400)
@@ -601,31 +600,29 @@ class EndToEndHyBiTest(EndToEndTestBase):
         self._run_http_fallback_test(options, 400)
 
     def test_basic_auth_connection(self):
-        """Tests invalid resource suite."""
+        """Test successful basic auth"""
 
         options = self._options
         options.use_basic_auth = True
 
         self.server_stderr = subprocess.PIPE
-        self._run_test_with_client_options(_check_handshake_with_basic_auth,
-                                           options,
-                                           server_option=['--basic-auth'])
+        self._run_test_with_options(_check_handshake_with_basic_auth,
+                                    options,
+                                    server_options=['--basic-auth'])
 
     def test_invalid_basic_auth_connection(self):
-        """Tests invalid resource suite."""
+        """Tests basic auth with invalid credentials"""
 
         options = self._options
         options.use_basic_auth = True
         options.basic_auth_credential = 'invalid:test'
 
         self.server_stderr = subprocess.PIPE
-        # with self.assertRaises(Exception):
 
         with self.assertRaises(client_for_testing.HttpStatusException) as e:
-            self._run_test_with_client_options(
-                _check_handshake_with_basic_auth,
-                options,
-                server_option=['--basic-auth'])
+            self._run_test_with_options(_check_handshake_with_basic_auth,
+                                        options,
+                                        server_options=['--basic-auth'])
             self.assertEqual(101, e.exception.status)
 
 
