@@ -42,7 +42,7 @@ from test import mock
 from six.moves import zip
 
 _TEST_HANDLERS_DIR = os.path.join(
-    os.path.split(__file__)[0], 'testdata', 'handlers')
+    os.path.dirname(__file__), 'testdata', 'handlers')
 
 _TEST_HANDLERS_SUB_DIR = os.path.join(_TEST_HANDLERS_DIR, 'sub')
 

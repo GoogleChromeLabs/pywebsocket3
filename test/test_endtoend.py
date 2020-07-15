@@ -133,7 +133,7 @@ class EndToEndTestBase(unittest.TestCase):
     """
     def setUp(self):
         self.server_stderr = None
-        self.top_dir = os.path.join(os.path.split(__file__)[0], '..')
+        self.top_dir = os.path.join(os.path.dirname(__file__), '..')
         os.putenv('PYTHONPATH', os.path.pathsep.join(sys.path))
         self.standalone_command = os.path.join(self.top_dir, 'mod_pywebsocket',
                                                'standalone.py')
