@@ -633,7 +633,16 @@ class EndToEndTestWithEchoClient(EndToEndTestBase):
 
     def _check_example_echo_client_result(self, expected, stdoutdata,
                                           stderrdata):
+        # This is not right in Python 3 if the locale does not use
+        # utf-8, which is why the tests only use ASCII characters.
         actual = stdoutdata.decode("utf-8")
+
+        # In Python 3 on Windows we get "\r\n" terminators back from
+        # the subprocess and we need to replace them with "\n" to get
+        # a match. This is a bit of a hack, but avoids platform- and
+        # version- specific code.
+        actual = actual.replace('\r\n', '\n')
+
         if actual != expected:
             raise Exception('Unexpected result on example echo client: '
                             '%r (expected) vs %r (actual)' %
@@ -655,8 +664,8 @@ class EndToEndTestWithEchoClient(EndToEndTestBase):
             # Expected output for the default messages.
             default_expectation = (u'Send: Hello\n'
                                    u'Recv: Hello\n'
-                                   u'Send: \u65e5\u672c\n'
-                                   u'Recv: \u65e5\u672c\n'
+                                   u'Send: <>\n'
+                                   u'Recv: <>\n'
                                    u'Send close\n'
                                    u'Recv ack\n')
 

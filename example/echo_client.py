@@ -599,6 +599,10 @@ class EchoClient(object):
 
 
 def main():
+    # Output in UTF-8 on Python 2. This will do the wrong thing if the
+    # locale is not UTF-8. On Python 3, the output encoding is correct
+    # for the locale but doesn't necessarily support all unicode
+    # characters. This problem is particularly prevalent on Windows.
     if six.PY2:
         sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
 
@@ -636,7 +640,7 @@ def main():
         '--message',
         dest='message',
         type=six.text_type,
-        default=u'Hello,\u65e5\u672c',
+        default=u'Hello,<>',
         help=('comma-separated messages to send. '
               '%s will force close the connection from server.' %
               _GOODBYE_MESSAGE))
