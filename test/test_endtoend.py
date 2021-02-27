@@ -702,6 +702,7 @@ class EndToEndTestWithCgi(EndToEndTestBase):
         """Verifies that CGI scripts work."""
 
         server = self._run_server(extra_args=['--cgi-paths', '/cgi-bin'])
+        time.sleep(_SERVER_WARMUP_IN_SEC)
 
         url = 'http://localhost:%d/cgi-bin/hi.py' % self._options.server_port
 
