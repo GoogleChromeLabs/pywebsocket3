@@ -153,8 +153,9 @@ class EndToEndTestBase(unittest.TestCase):
     # TODO(tyoshino): Use tearDown to kill the server.
 
     def _run_python_command(self, commandline, stdout=None, stderr=None):
+        close_fds = True if sys.platform != 'win32' else None
         return subprocess.Popen([sys.executable] + commandline,
-                                close_fds=True,
+                                close_fds=close_fds,
                                 stdout=stdout,
                                 stderr=stderr)
 
