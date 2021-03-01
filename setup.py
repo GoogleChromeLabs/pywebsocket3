@@ -66,8 +66,7 @@ setup(
     packages=[_PACKAGE_NAME, _PACKAGE_NAME + '.handshake'],
     python_requires='>=2.7',
     install_requires=['six'],
-    #TODO(suzukikeita): Update this to new Github URL
-    url='http://code.google.com/p/pywebsocket/',
+    url='https://github.com/GoogleChromeLabs/pywebsocket3',
     version='3.0.0',
 )
 
