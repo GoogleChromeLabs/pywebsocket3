@@ -32,6 +32,7 @@
 """
 
 from __future__ import absolute_import
+import locale
 import logging
 import os
 import signal
@@ -633,9 +634,7 @@ class EndToEndTestWithEchoClient(EndToEndTestBase):
 
     def _check_example_echo_client_result(self, expected, stdoutdata,
                                           stderrdata):
-        # This is not right in Python 3 if the locale does not use
-        # utf-8, which is why the tests only use ASCII characters.
-        actual = stdoutdata.decode("utf-8")
+        actual = stdoutdata.decode(locale.getpreferredencoding())
 
         # In Python 3 on Windows we get "\r\n" terminators back from
         # the subprocess and we need to replace them with "\n" to get

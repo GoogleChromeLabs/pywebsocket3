@@ -599,12 +599,14 @@ class EchoClient(object):
 
 
 def main():
-    # Output in UTF-8 on Python 2. This will do the wrong thing if the
-    # locale is not UTF-8. On Python 3, the output encoding is correct
-    # for the locale but doesn't necessarily support all unicode
-    # characters. This problem is particularly prevalent on Windows.
+    # Force Python 2 to use the locale encoding, even when the output is not a
+    # tty. This makes the behaviour the same as Python 3. The encoding won't
+    # necessarily support all unicode characters. This problem is particularly
+    # prevalent on Windows.
     if six.PY2:
-        sys.stdout = codecs.getwriter('utf-8')(sys.stdout)
+        import locale
+        encoding = locale.getpreferredencoding()
+        sys.stdout = codecs.getwriter(encoding)(sys.stdout)
 
     parser = argparse.ArgumentParser()
     # We accept --command_line_flag style flags which is the same as Google
