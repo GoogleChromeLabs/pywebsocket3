@@ -43,7 +43,7 @@ _USE_FAST_MASKING = False
 
 # This is used since python_requires field is not recognized with
 # pip version 9.0.0 and earlier
-if sys.version < '2.7':
+if sys.hexversion < 0x020700f0:
     print('%s requires Python 2.7 or later.' % _PACKAGE_NAME, file=sys.stderr)
     sys.exit(1)
 
