@@ -33,6 +33,7 @@
 
 from __future__ import absolute_import
 from six.moves import urllib
+import locale
 import logging
 import os
 import signal
@@ -154,8 +155,9 @@ class EndToEndTestBase(unittest.TestCase):
     # TODO(tyoshino): Use tearDown to kill the server.
 
     def _run_python_command(self, commandline, stdout=None, stderr=None):
+        close_fds = True if sys.platform != 'win32' else None
         return subprocess.Popen([sys.executable] + commandline,
-                                close_fds=True,
+                                close_fds=close_fds,
                                 stdout=stdout,
                                 stderr=stderr)
 
@@ -633,7 +635,14 @@ class EndToEndTestWithEchoClient(EndToEndTestBase):
 
     def _check_example_echo_client_result(self, expected, stdoutdata,
                                           stderrdata):
-        actual = stdoutdata.decode("utf-8")
+        actual = stdoutdata.decode(locale.getpreferredencoding())
+
+        # In Python 3 on Windows we get "\r\n" terminators back from
+        # the subprocess and we need to replace them with "\n" to get
+        # a match. This is a bit of a hack, but avoids platform- and
+        # version- specific code.
+        actual = actual.replace('\r\n', '\n')
+
         if actual != expected:
             raise Exception('Unexpected result on example echo client: '
                             '%r (expected) vs %r (actual)' %
@@ -655,8 +664,8 @@ class EndToEndTestWithEchoClient(EndToEndTestBase):
             # Expected output for the default messages.
             default_expectation = (u'Send: Hello\n'
                                    u'Recv: Hello\n'
-                                   u'Send: \u65e5\u672c\n'
-                                   u'Recv: \u65e5\u672c\n'
+                                   u'Send: <>\n'
+                                   u'Recv: <>\n'
                                    u'Send close\n'
                                    u'Recv ack\n')
 
