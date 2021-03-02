@@ -32,6 +32,7 @@
 """
 
 from __future__ import absolute_import
+from six.moves import urllib
 import locale
 import logging
 import os
@@ -699,6 +700,35 @@ class EndToEndTestWithEchoClient(EndToEndTestBase):
             self._check_example_echo_client_result(default_expectation,
                                                    stdoutdata, stderrdata)
         finally:
+            self._close_server(server)
+
+
+class EndToEndTestWithCgi(EndToEndTestBase):
+    def setUp(self):
+        EndToEndTestBase.setUp(self)
+
+    def test_cgi(self):
+        """Verifies that CGI scripts work."""
+
+        server = self._run_server(extra_args=['--cgi-paths', '/cgi-bin'])
+        time.sleep(_SERVER_WARMUP_IN_SEC)
+
+        url = 'http://localhost:%d/cgi-bin/hi.py' % self._options.server_port
+
+        # urlopen() in Python 2.7 doesn't support "with".
+        try:
+            f = urllib.request.urlopen(url)
+        except:
+            self._close_server(server)
+            raise
+
+        try:
+            self.assertEqual(f.getcode(), 200)
+            self.assertEqual(f.info().get('Content-Type'), 'text/plain')
+            body = f.read()
+            self.assertEqual(body.rstrip(b'\r\n'), b'Hi from hi.py')
+        finally:
+            f.close()
             self._close_server(server)
 
 
