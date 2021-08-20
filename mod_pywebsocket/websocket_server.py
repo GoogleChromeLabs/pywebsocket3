@@ -89,7 +89,7 @@ class WebSocketServer(socketserver.ThreadingMixIn, BaseHTTPServer.HTTPServer):
         # instantiation.  Dispatcher can be shared because it is thread-safe.
         options.dispatcher = dispatch.Dispatcher(
             options.websock_handlers, options.scan_dir,
-            options.allow_handlers_outside_root_dir)
+            options.allow_handlers_outside_root_dir, options.handler_encoding)
         if options.websock_handlers_map_file:
             _alias_handlers(options.dispatcher,
                             options.websock_handlers_map_file)
