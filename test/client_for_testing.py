@@ -700,15 +700,15 @@ class Client(object):
         try:
             read_data = receive_bytes(self._socket, 1)
         except Exception as e:
-            if str(e).find(
-                    'Connection closed before receiving requested length '
-            ) == 0:
+            if str(e).find('Connection closed before receiving requested length ') == 0:
                 return
+
             try:
-                error_number, message = e
                 for error_name in ['ECONNRESET', 'WSAECONNRESET']:
-                    if (error_name in dir(errno)
-                            and error_number == getattr(errno, error_name)):
+                    if (
+                        error_name in dir(errno) and
+                        e.errno == getattr(errno, error_name)
+                    ):
                         return
             except:
                 raise e
