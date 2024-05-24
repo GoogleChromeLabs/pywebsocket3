@@ -56,8 +56,8 @@ if _USE_FAST_MASKING:
     ])
 
 setup(
-    author='Yuzo Fujishima',
-    author_email='yuzo@chromium.org',
+    author='Adam Rice, Keita Suzuki',
+    author_email='Adam Rice <ricea@chromium.org>, Keita Suzuki <suzukikeita@chromium.org>',
     description='Standalone WebSocket Server for testing purposes.',
     long_description=('pywebsocket3 is a standalone server for '
                       'the WebSocket Protocol (RFC 6455). '
