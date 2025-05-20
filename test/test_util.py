@@ -37,9 +37,6 @@ import os
 import random
 import unittest
 
-from six import int2byte, PY3
-from six.moves import range
-
 import set_sys_path  # Update sys.path to locate pywebsocket3 module.
 from pywebsocket3 import util
 
@@ -162,7 +159,7 @@ class InflaterDeflaterTest(unittest.TestCase):
     def test_random_section(self):
         random.seed(a=0)
         source = b''.join(
-            [int2byte(random.randint(0, 255)) for i in range(100 * 1024)])
+            [bytes((random.randint(0, 255),)) for i in range(100 * 1024)])
 
         chunked_input = get_random_section(source, 10)
 

@@ -32,9 +32,8 @@
 
 from __future__ import absolute_import
 
+from io import StringIO
 import unittest
-
-import six
 
 import set_sys_path  # Update sys.path to locate pywebsocket3 module.
 from pywebsocket3 import memorizingfile
@@ -75,22 +74,22 @@ class UtilTest(unittest.TestCase):
 
     def test_get_memorized_lines(self):
         memorizing_file = memorizingfile.MemorizingFile(
-            six.StringIO('Hello\nWorld\nWelcome'))
+            StringIO('Hello\nWorld\nWelcome'))
         self.check(memorizing_file, 3, ['Hello\n', 'World\n', 'Welcome'])
 
     def test_get_memorized_lines_limit_memorized_lines(self):
         memorizing_file = memorizingfile.MemorizingFile(
-            six.StringIO('Hello\nWorld\nWelcome'), 2)
+            StringIO('Hello\nWorld\nWelcome'), 2)
         self.check(memorizing_file, 3, ['Hello\n', 'World\n'])
 
     def test_get_memorized_lines_empty_file(self):
-        memorizing_file = memorizingfile.MemorizingFile(six.StringIO(''))
+        memorizing_file = memorizingfile.MemorizingFile(StringIO(''))
         self.check(memorizing_file, 10, [])
 
     def test_get_memorized_lines_with_size(self):
         for size in range(1, 10):
             memorizing_file = memorizingfile.MemorizingFile(
-                six.StringIO('Hello\nWorld\nWelcome'))
+                StringIO('Hello\nWorld\nWelcome'))
             self.check_with_size(memorizing_file, size,
                                  ['Hello\n', 'World\n', 'Welcome'])
 

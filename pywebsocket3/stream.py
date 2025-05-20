@@ -39,7 +39,6 @@ import struct
 import time
 from collections import deque
 
-import six
 
 from pywebsocket3 import common, util
 from pywebsocket3._stream_exceptions import (
@@ -564,7 +563,7 @@ class Stream(object):
             raise BadOperationException(
                 'Requested send_message after sending out a closing handshake')
 
-        if binary and isinstance(message, six.text_type):
+        if binary and isinstance(message, str):
             raise BadOperationException(
                 'Message for binary frame must not be instance of Unicode')
 
@@ -897,7 +896,7 @@ class Stream(object):
             reason = ''
         else:
             if not isinstance(reason, bytes) and not isinstance(
-                    reason, six.text_type):
+                    reason, str):
                 raise BadOperationException(
                     'close reason must be an instance of bytes or unicode')
 
@@ -926,7 +925,7 @@ class Stream(object):
         # note: mod_python Connection (mp_conn) doesn't have close method.
 
     def send_ping(self, body, binary=False):
-        if not binary and isinstance(body, six.text_type):
+        if not binary and isinstance(body, str):
             body = body.encode('UTF-8')
         frame = create_ping_frame(body, self._options.mask_send,
                                   self._options.outgoing_frame_filters)

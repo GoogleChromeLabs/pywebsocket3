@@ -35,8 +35,6 @@ from __future__ import absolute_import
 import os
 import unittest
 
-from six.moves import zip
-
 import set_sys_path  # Update sys.path to locate pywebsocket3 module.
 from pywebsocket3 import dispatch, handshake
 from test import mock

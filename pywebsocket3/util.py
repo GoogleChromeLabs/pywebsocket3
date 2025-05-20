@@ -36,8 +36,6 @@ import re
 import struct
 import zlib
 
-import six
-from six.moves import map, range
 
 try:
     from pywebsocket3 import fast_masking
@@ -96,7 +94,7 @@ def get_script_interp(script_path, cygwin_path=None):
 
 
 def hexify(s):
-    return ' '.join(['%02x' % x for x in six.iterbytes(s)])
+    return ' '.join(['%02x' % x for x in iter(s)])
 
 
 def get_class_logger(o):
@@ -147,7 +145,7 @@ class RepeatedXorMasker(object):
 
     def _mask_using_array(self, s):
         """Perform the mask via python."""
-        if isinstance(s, six.text_type):
+        if isinstance(s, str):
             raise Exception(
                 'Masking Operation should not process unicode strings')
 
@@ -155,7 +153,7 @@ class RepeatedXorMasker(object):
 
         # Use temporary local variables to eliminate the cost to access
         # attributes
-        masking_key = [c for c in six.iterbytes(self._masking_key)]
+        masking_key = [c for c in iter(self._masking_key)]
         masking_key_size = len(masking_key)
         masking_key_index = self._masking_key_index
 

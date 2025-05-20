@@ -50,16 +50,13 @@ from __future__ import print_function
 
 import argparse
 import base64
-import codecs
 import logging
 import os
 import re
 import socket
 import ssl
-import sys
 from hashlib import sha1
 
-import six
 
 from pywebsocket3 import common, util
 from pywebsocket3.extensions import (
@@ -599,14 +596,6 @@ class EchoClient(object):
 
 
 def main():
-    # Force Python 2 to use the locale encoding, even when the output is not a
-    # tty. This makes the behaviour the same as Python 3. The encoding won't
-    # necessarily support all unicode characters. This problem is particularly
-    # prevalent on Windows.
-    if six.PY2:
-        import locale
-        encoding = locale.getpreferredencoding()
-        sys.stdout = codecs.getwriter(encoding)(sys.stdout)
 
     parser = argparse.ArgumentParser()
     # We accept --command_line_flag style flags which is the same as Google
@@ -615,7 +604,7 @@ def main():
                         '--server-host',
                         '--server_host',
                         dest='server_host',
-                        type=six.text_type,
+                        type=str,
                         default='localhost',
                         help='server host')
     parser.add_argument('-p',
@@ -628,20 +617,20 @@ def main():
     parser.add_argument('-o',
                         '--origin',
                         dest='origin',
-                        type=six.text_type,
+                        type=str,
                         default=None,
                         help='origin')
     parser.add_argument('-r',
                         '--resource',
                         dest='resource',
-                        type=six.text_type,
+                        type=str,
                         default='/echo',
                         help='resource path')
     parser.add_argument(
         '-m',
         '--message',
         dest='message',
-        type=six.text_type,
+        type=str,
         default=u'Hello,<>',
         help=('comma-separated messages to send. '
               '%s will force close the connection from server.' %
@@ -673,7 +662,7 @@ def main():
                         help='Use the permessage-deflate extension.')
     parser.add_argument('--log-level',
                         '--log_level',
-                        type=six.text_type,
+                        type=str,
                         dest='log_level',
                         default='warn',
                         choices=['debug', 'info', 'warn', 'error', 'critical'],

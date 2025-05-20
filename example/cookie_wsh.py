@@ -27,8 +27,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from __future__ import absolute_import
-
-from six.moves import urllib
+from urllib.parse import urlparse
 
 
 def _add_set_cookie(request, value):
@@ -36,7 +35,7 @@ def _add_set_cookie(request, value):
 
 
 def web_socket_do_extra_handshake(request):
-    components = urllib.parse.urlparse(request.uri)
+    components = urlparse(request.uri)
     command = components[4]
 
     ONE_DAY_LIFE = 'Max-Age=86400'

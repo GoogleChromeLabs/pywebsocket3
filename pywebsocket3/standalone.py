@@ -162,8 +162,7 @@ import os
 import sys
 import traceback
 
-import six
-from six.moves import configparser
+import configparser
 
 from pywebsocket3 import common, server_util, util
 from pywebsocket3.websocket_server import WebSocketServer
@@ -181,7 +180,7 @@ def _build_option_parser():
     parser.add_argument(
         '--config',
         dest='config_file',
-        type=six.text_type,
+        type=str,
         default=None,
         help=('Path to configuration file. See the file comment '
               'at the top of this file for the configuration '
@@ -318,7 +317,7 @@ def _build_option_parser():
     # - FINE: Prints status of each frame processing step
     parser.add_argument('--log-level',
                         '--log_level',
-                        type=six.text_type,
+                        type=str,
                         dest='log_level',
                         default='warn',
                         choices=[
@@ -329,7 +328,7 @@ def _build_option_parser():
     parser.add_argument(
         '--deflate-log-level',
         '--deflate_log_level',
-        type=six.text_type,
+        type=str,
         dest='deflate_log_level',
         default='warn',
         choices=['debug', 'info', 'warning', 'warn', 'error', 'critical'],
@@ -366,7 +365,7 @@ def _build_option_parser():
         '--handler-encoding',
         '--handler_encoding',
         dest='handler_encoding',
-        type=six.text_type,
+        type=str,
         default=None,
         help=('Text encoding used for loading handlers. '
               'By default, the encoding from the locale is used when '

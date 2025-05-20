@@ -31,8 +31,7 @@ in HTTP RFC http://www.ietf.org/rfc/rfc2616.txt.
 """
 
 from __future__ import absolute_import
-
-import six.moves.urllib.parse
+from urllib.parse import urlsplit
 
 
 _SEPARATORS = '()<>@,;:\\"/[]?={} \t'
@@ -216,7 +215,7 @@ def quote_if_necessary(s):
 def parse_uri(uri):
     """Parse absolute URI then return host, port and resource."""
 
-    parsed = six.moves.urllib.parse.urlsplit(uri)
+    parsed = urlsplit(uri)
     if parsed.scheme != 'wss' and parsed.scheme != 'ws':
         # |uri| must be a relative URI.
         # TODO(toyoshim): Should validate |uri|.

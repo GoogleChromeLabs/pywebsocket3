@@ -53,7 +53,6 @@ import struct
 import time
 from hashlib import sha1
 
-from six import indexbytes, iterbytes
 
 from pywebsocket3 import common, util
 from pywebsocket3.handshake import HandshakeException
@@ -451,8 +450,8 @@ class WebSocketStream(object):
         masking_nonce = os.urandom(4)
         result = [masking_nonce]
         count = 0
-        for c in iterbytes(s):
-            result.append(util.pack_byte(c ^ indexbytes(masking_nonce, count)))
+        for c in iter(s):
+            result.append(util.pack_byte(c ^ masking_nonce[count]))
             count = (count + 1) % len(masking_nonce)
         return b''.join(result)
 
