@@ -29,10 +29,10 @@
 """Request Handler and Request/Connection classes for standalone server.
 """
 
+import http
 import os
 
-from six.moves import CGIHTTPServer
-from six.moves import http_client
+from http.server import CGIHTTPServer
 
 from pywebsocket3 import (
     common,
@@ -152,7 +152,7 @@ class WebSocketRequestHandler(CGIHTTPServer.CGIHTTPRequestHandler):
     """CGIHTTPRequestHandler specialized for WebSocket."""
 
     # Use httplib.HTTPMessage instead of mimetools.Message.
-    MessageClass = http_client.HTTPMessage
+    MessageClass = http.client.HTTPMessage
 
     def setup(self):
         """Override SocketServer.StreamRequestHandler.setup to wrap rfile

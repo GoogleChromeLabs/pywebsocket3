@@ -36,8 +36,6 @@ from pywebsocket3 import common, http_header_util, util
 from pywebsocket3.extensions import get_extension_processor
 from pywebsocket3.stream import Stream, StreamOptions
 
-from six.moves import map, range
-
 
 # Defining aliases for values used frequently.
 _VERSION_LATEST = common.VERSION_HYBI_LATEST

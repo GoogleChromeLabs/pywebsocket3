@@ -38,11 +38,7 @@ import random
 import struct
 import unittest
 import zlib
-
-from six import iterbytes
-from six.moves import map
-from six.moves import range
-import six.moves.queue
+import queue
 
 import set_sys_path  # Update sys.path to locate pywebsocket3 module.
 from pywebsocket3 import common, msgutil, util
@@ -59,10 +55,10 @@ _MASKING_NONCE = b'ABCD'
 
 
 def _mask_hybi(frame):
-    if isinstance(frame, six.text_type):
+    if isinstance(frame, str):
         Exception('masking does not accept Texts')
 
-    frame_key = list(iterbytes(_MASKING_NONCE))
+    frame_key = list(iter(_MASKING_NONCE))
     frame_key_len = len(frame_key)
     result = bytearray(frame)
     count = 0
@@ -865,7 +861,7 @@ class MessageReceiverTest(unittest.TestCase):
         self.assertEqual('Hello!', receiver.receive())
 
     def test_onmessage(self):
-        onmessage_queue = six.moves.queue.Queue()
+        onmessage_queue = queue.Queue()
 
         def onmessage_handler(message):
             onmessage_queue.put(message)
@@ -890,7 +886,7 @@ class MessageSenderTest(unittest.TestCase):
         # Use a queue to check the bytes written by MessageSender.
         # request.connection.written_data() cannot be used here because
         # MessageSender runs in a separate thread.
-        send_queue = six.moves.queue.Queue()
+        send_queue = queue.Queue()
 
         def write(bytes):
             send_queue.put(bytes)

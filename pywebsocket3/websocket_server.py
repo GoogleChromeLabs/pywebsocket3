@@ -35,15 +35,15 @@ to use standalone.py, since it is intended to act as a skeleton of this module.
 
 from __future__ import absolute_import
 
+import http
 import logging
 import re
 import select
 import socket
+import socketserver
 import ssl
 import threading
 import traceback
-
-from six.moves import BaseHTTPServer, socketserver
 
 from pywebsocket3 import dispatch, util
 from pywebsocket3.request_handler import WebSocketRequestHandler
@@ -71,7 +71,7 @@ def _alias_handlers(dispatcher, websock_handlers_map_file):
                 logging.error(str(e))
 
 
-class WebSocketServer(socketserver.ThreadingMixIn, BaseHTTPServer.HTTPServer):
+class WebSocketServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
     """HTTPServer specialized for WebSocket."""
 
     # Overrides SocketServer.ThreadingMixIn.daemon_threads

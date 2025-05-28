@@ -35,7 +35,7 @@ from __future__ import absolute_import
 import threading
 import unittest
 
-import six.moves.queue
+import queue
 
 import set_sys_path  # Update sys.path to locate pywebsocket3 module.
 from test import mock
@@ -95,7 +95,7 @@ class MockBlockingConnTest(unittest.TestCase):
                     self._queue.put(data)
 
         conn = mock.MockBlockingConn()
-        queue = six.moves.queue.Queue()
+        queue = queue.Queue()
         reader = LineReader(conn, queue)
         self.assertTrue(queue.empty())
         conn.put_bytes(b'Foo bar\r\n')

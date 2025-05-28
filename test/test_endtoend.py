@@ -42,7 +42,7 @@ import sys
 import time
 import unittest
 
-from six.moves import urllib
+import urllib
 
 import set_sys_path  # Update sys.path to locate pywebsocket3 module.
 from test import client_for_testing

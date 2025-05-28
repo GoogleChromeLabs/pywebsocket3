@@ -30,12 +30,9 @@
 """
 
 from __future__ import absolute_import
+import queue
 
-import six
-import six.moves.queue
-from six.moves import range
-
-from pywebsocket3 import common, util
+from pywebsocket3 import common
 from pywebsocket3.stream import Stream, StreamOptions
 
 
@@ -113,7 +110,7 @@ class MockBlockingConn(_MockConnBase):
     """
     def __init__(self):
         _MockConnBase.__init__(self)
-        self._queue = six.moves.queue.Queue()
+        self._queue = queue.Queue()
 
     def readline(self):
         """Override mod_python.apache.mp_conn.readline."""
@@ -140,7 +137,7 @@ class MockBlockingConn(_MockConnBase):
             bytes: bytes to be read.
         """
 
-        for byte in six.iterbytes(bytes):
+        for byte in iter(bytes):
             self._queue.put(byte)
 
 

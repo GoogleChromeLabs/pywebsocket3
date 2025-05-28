@@ -50,8 +50,6 @@ import re
 import sys
 import unittest
 
-import six
-
 _TEST_MODULE_PATTERN = re.compile(r'^(test_.+)\.py$')
 
 
@@ -75,7 +73,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--log-level',
         '--log_level',
-        type=six.text_type,
+        type=str,
         dest='log_level',
         default='warning',
         choices=['debug', 'info', 'warning', 'warn', 'error', 'critical'])
